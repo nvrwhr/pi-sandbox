@@ -1,7 +1,7 @@
 services:
-  pi-agent:
+  pi-sandbox:
     build: .
-    container_name: pi-agent
+    container_name: pi-sandbox
     stdin_open: true
     tty: true
     volumes:

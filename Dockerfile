@@ -3,16 +3,35 @@ FROM node:24-slim
 RUN apt-get update && apt-get install -y ca-certificates git \
     && update-ca-certificates
 
-
 RUN apt-get install -y --no-install-recommends \
      bash curl wget \
     && rm -rf /var/lib/apt/lists/*
 
-WORKDIR /home/piuser
+# Create piuser
+RUN groupadd -g 2000 piuser \
+  && useradd -m -u 2000 -g piuser -s /bin/bash piuser \
+  && mkdir -p /home/piuser/.pi/agent \
+  && chown -R piuser:piuser /home/piuser/.pi
 
-# Install pi globally
+
+# Inject config files via build args (pass file contents as base64)
+ARG MODELS_JSON_B64
+ARG AUTH_JSON_B64
+
+
 RUN npm install -g @mariozechner/pi-coding-agent
 RUN npx skills add JuliusBrussee/caveman -a pi --all
 
-# Default: run agent pi
-CMD ["bash"] 
+RUN echo "$MODELS_JSON_B64" | base64 -d > /home/piuser/.pi/agent/models.json && \
+    echo "$AUTH_JSON_B64" | base64 -d > /home/piuser/.pi/agent/auth.json 
+    
+RUN chown piuser:piuser /home/piuser/.pi/agent/auth.json 
+RUN chown piuser:piuser /home/piuser/.pi/agent/models.json 
+
+COPY --chown=piuser:piuser replace-localhost.js /home/piuser/replace-localhost.js
+RUN node /home/piuser/replace-localhost.js
+
+USER piuser
+WORKDIR /home/piuser/
+
+CMD ["bash"]

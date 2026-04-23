@@ -31,10 +31,10 @@ Agent runs. Interactive. Type commands.
 
 ```bash
 # One-shot command
-docker compose run --rm pi-agent pi "refactor auth module"
+docker compose run --rm pi-sandbox:latest pi "refactor auth module"
 
 # Shell access
-docker compose exec pi-agent bash
+docker compose exec pi-sandbox:latest bash
 ```
 
 ## Safety
@@ -49,20 +49,23 @@ docker compose exec pi-agent bash
 Run directly with Docker:
 
 ```bash
- docker build . -t pi-agent:latest
+ sh build-sandbox-pi.sh
 
  docker run -it --rm \
   -v $(pwd)/project:/home/piuser/workspace:rw \
   -e PI_PROJECT_DIR=/home/piuser/workspace \
   -w /home/piuser/workspace \
-  pi-agent:latest
+  pi-sandbox:latest:latest
+
+  # or 
+  sh run-pi-here.sh project # can add to PATH/bin
 ```
 
 
 **Build first:**
 
 ```bash
-docker build -t pi-agent:latest .
+sh build-sandbox-pi.sh
 ```
 
 ## Customization
@@ -109,7 +112,7 @@ id -u
 **Agent not found**
 
 ```bash
-docker compose run --rm pi-agent which pi
+docker compose run --rm pi-sandbox:latest which pi
 ```
 
 **Cache too large**

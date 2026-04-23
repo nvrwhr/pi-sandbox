@@ -1,0 +1,16 @@
+services:
+  pi-agent:
+    build: .
+    container_name: pi-agent
+    stdin_open: true
+    tty: true
+    volumes:
+      - ./project:/home/piuser/workspace:rw
+      - pi-cache:/home/piuser/.pi:rw
+    environment:
+      - PI_PROJECT_DIR=/home/piuser/workspace
+      - NODE_ENV=production
+    working_dir: /home/piuser/workspace
+
+volumes:
+  pi-cache:

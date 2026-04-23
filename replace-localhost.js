@@ -85,7 +85,9 @@ function main() {
 
   if (!fs.existsSync(filePath)) {
     console.error(`File not found: ${filePath}`);
-    process.exit(1);
+    const output = JSON.stringify({}, null, 2);
+    fs.writeFileSync(filePath, output + '\n', 'utf8');
+    process.exit(0);
   }
 
   console.log(`Reading: ${filePath}`);
@@ -103,8 +105,8 @@ function main() {
   console.log(`Docker host IP: ${hostIP}`);
 
   if (!data.providers || typeof data.providers !== 'object') {
-    console.error('No providers found in models.json');
-    process.exit(1);
+    console.log('No providers found in models.json');
+    process.exit(0);
   }
 
   let updated = 0;

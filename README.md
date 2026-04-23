@@ -117,3 +117,8 @@ docker compose run --rm pi-agent which pi
 ```bash
 docker volume rm pi-docker_pi-cache
 ```
+
+
+## LOCAL LLM
+
+You can call your local llm using `host.docker.internal`. 

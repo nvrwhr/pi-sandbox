@@ -22,11 +22,11 @@ ARG AUTH_JSON_B64
 RUN npm install -g @mariozechner/pi-coding-agent
 RUN npx skills add JuliusBrussee/caveman -a pi --all
 
-RUN echo "$MODELS_JSON_B64" | base64 -d > /home/piuser/.pi/agent/models.json; exit 0
-RUN echo "$AUTH_JSON_B64" | base64 -d > /home/piuser/.pi/agent/auth.json; exit 0
+RUN echo "$MODELS_JSON_B64" | base64 -d > /home/piuser/.pi/agent/models.json; 
+RUN echo "$AUTH_JSON_B64" | base64 -d > /home/piuser/.pi/agent/auth.json; 
     
-RUN chown piuser:piuser /home/piuser/.pi/agent/auth.json; exit 0
-RUN chown piuser:piuser /home/piuser/.pi/agent/models.json; exit 0
+RUN chown piuser:piuser /home/piuser/.pi/agent/auth.json; 
+RUN chown piuser:piuser /home/piuser/.pi/agent/models.json; 
 
 COPY --chown=piuser:piuser replace-localhost.js /home/piuser/replace-localhost.js
 RUN node /home/piuser/replace-localhost.js

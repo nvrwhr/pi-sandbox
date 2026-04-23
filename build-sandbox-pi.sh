@@ -17,8 +17,8 @@ for f in "$MODELS_SRC" "$AUTH_SRC"; do
 done
 
 # Encode file contents as base64
-MODELS_B64=$(base64 -w0 "$MODELS_SRC")
-AUTH_B64=$(base64 -w0 "$AUTH_SRC")
+MODELS_B64=$(base64 -w0 "$MODELS_SRC" 2>/dev/null || true)
+AUTH_B64=$(base64 -w0 "$AUTH_SRC" 2>/dev/null || true)
 
 echo "Building $TAG ..."
 echo "  models.json -> $MODELS_SRC"

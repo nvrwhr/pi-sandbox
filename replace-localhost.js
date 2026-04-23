@@ -85,7 +85,7 @@ function main() {
 
   if (!fs.existsSync(filePath)) {
     console.error(`File not found: ${filePath}`);
-    const output = JSON.stringify({}, null, 2);
+    const output = JSON.stringify({ "providers": {} }, null, 2);
     fs.writeFileSync(filePath, output + '\n', 'utf8');
     process.exit(0);
   }

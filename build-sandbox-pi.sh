@@ -8,17 +8,17 @@ HOME_DIR="${HOME:-$USERPROFILE}"
 MODELS_SRC="$HOME_DIR/.pi/agent/models.json"
 AUTH_SRC="$HOME_DIR/.pi/agent/auth.json"
 
-# Validate source files exist
-for f in "$MODELS_SRC" "$AUTH_SRC"; do
-  if [[ ! -f "$f" ]]; then
-    echo "ERROR: $f not found" >&2
-    exit 1
-  fi
-done
+if [[ -f "$MODELS_SRC" ]]; then
+  MODELS_B64=$(base64 -w0 "$MODELS_SRC")
+else
+  MODELS_B64=$(printf '%s' '{ "providers": {} }' | base64 -w0)
+fi
 
-# Encode file contents as base64
-MODELS_B64=$(base64 -w0 "$MODELS_SRC" 2>/dev/null || true)
-AUTH_B64=$(base64 -w0 "$AUTH_SRC" 2>/dev/null || true)
+if [[ -f "$AUTH_SRC" ]]; then
+  AUTH_B64=$(base64 -w0 "$AUTH_SRC")
+else
+  AUTH_B64=$(printf '%s' '{}' | base64 -w0)
+fi
 
 echo "Building $TAG ..."
 echo "  models.json -> $MODELS_SRC"

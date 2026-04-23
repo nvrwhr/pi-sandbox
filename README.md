@@ -49,7 +49,8 @@ docker compose exec pi-agent bash
 Run directly with Docker:
 
 ```bash
-# Interactive
+ docker build . -t pi-agent:latest
+
  docker run -it --rm \
   -v $(pwd)/project:/home/piuser/workspace:rw \
   -e PI_PROJECT_DIR=/home/piuser/workspace \

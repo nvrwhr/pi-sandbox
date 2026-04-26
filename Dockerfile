@@ -7,7 +7,7 @@ RUN apt-get install -y --no-install-recommends \
     bash curl wget \
     && rm -rf /var/lib/apt/lists/*
 
-RUN npm install -g @mariozechner/pi-coding-agent
+RUN npm i -g @mariozechner/pi-coding-agent
 RUN npm i -g gitnexus
 
 ARG MODELS_JSON_B64

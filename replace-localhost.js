@@ -76,7 +76,7 @@ function fixBaseUrl(baseUrl, hostIP) {
 // --- Main ---
 
 function main() {
-  const filePath = '/home/piuser/.pi/agent/models.json';
+  const filePath = '/root/.pi/agent/models.json';
 
   if (!filePath) {
     console.error('Usage: node replace-localhost.js <models.json path>');

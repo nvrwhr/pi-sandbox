@@ -7,31 +7,33 @@ RUN apt-get install -y --no-install-recommends \
      bash curl wget \
     && rm -rf /var/lib/apt/lists/*
 
-# Create piuser
-RUN groupadd -g 2000 piuser \
-  && useradd -m -u 2000 -g piuser -s /bin/bash piuser \
-  && mkdir -p /home/piuser/.pi/agent \
-  && chown -R piuser:piuser /home/piuser/.pi
+# # Create piuser
+# RUN groupadd -g 2000 piuser \
+#   && useradd -m -u 2000 -g piuser -s /bin/bash piuser \
+#   && mkdir -p /home/piuser/.pi/agent \
+#   && chown -R piuser:piuser /home/piuser/.pi
 
+RUN npm install -g @mariozechner/pi-coding-agent
+RUN npx skills add JuliusBrussee/caveman -a pi --all
+RUN	pi install npm:pi-gitnexus
 
 # Inject config files via build args (pass file contents as base64)
 ARG MODELS_JSON_B64
 ARG AUTH_JSON_B64
 
-
-RUN npm install -g @mariozechner/pi-coding-agent
-RUN npx skills add JuliusBrussee/caveman -a pi --all
-
-RUN echo "$MODELS_JSON_B64" | base64 -d > /home/piuser/.pi/agent/models.json; 
-RUN echo "$AUTH_JSON_B64" | base64 -d > /home/piuser/.pi/agent/auth.json; 
+RUN echo "$MODELS_JSON_B64" | base64 -d > /root/.pi/agent/models.json; 
+RUN echo "$AUTH_JSON_B64" | base64 -d > /root/.pi/agent/auth.json; 
     
-RUN chown piuser:piuser /home/piuser/.pi/agent/auth.json; 
-RUN chown piuser:piuser /home/piuser/.pi/agent/models.json; 
+# RUN chown piuser:piuser /home/piuser/.pi/agent/auth.json; 
+# RUN chown piuser:piuser /home/piuser/.pi/agent/models.json; 
 
-COPY --chown=piuser:piuser replace-localhost.js /home/piuser/replace-localhost.js
-RUN node /home/piuser/replace-localhost.js
+# COPY --chown=piuser:piuser replace-localhost.js /home/piuser/replace-localhost.js
+COPY replace-localhost.js /root/replace-localhost.js
+RUN node /root/replace-localhost.js && rm /root/replace-localhost.js
 
-USER piuser
-WORKDIR /home/piuser/
+
+WORKDIR /root/workspace
+
+
 
 CMD ["bash"]

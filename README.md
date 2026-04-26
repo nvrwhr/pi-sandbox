@@ -13,7 +13,7 @@ pi-docker/
 ├── Dockerfile
 ├── docker-compose.yml
 ├── README.md
-└── project/          ← your code goes here
+└── project/          ← In composer default mount point
     ├── src/
     ├── package.json
     └── ...
@@ -57,10 +57,9 @@ Run directly with Docker:
   -w /home/piuser/workspace \
   pi-sandbox:latest:latest
 
-  # or 
-  sh run-pi-here.sh project # can add to PATH/bin
+  # or
+  sh run-pi-here.sh project # will mount to give folder, here "project". Will mount to "." if not provided
 ```
-
 
 **Build first:**
 
@@ -121,7 +120,11 @@ docker compose run --rm pi-sandbox:latest which pi
 docker volume rm pi-docker_pi-cache
 ```
 
-
 ## LOCAL LLM
 
-You can call your local llm using `host.docker.internal`. 
+You can call your local llm using `host.docker.internal`.
+
+### 4. SKILLS/INTEGRATION
+
+- caveman
+- gitnexus (pi:gitnexus and official pkg)

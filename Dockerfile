@@ -8,6 +8,7 @@ RUN apt-get install -y --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
 
 RUN npm install -g @mariozechner/pi-coding-agent
+RUN npm i -g gitnexus
 
 ARG MODELS_JSON_B64
 ARG AUTH_JSON_B64
@@ -24,6 +25,7 @@ RUN	pi install npm:pi-gitnexus
 
 WORKDIR /root
 RUN npx skills add JuliusBrussee/caveman -a pi --all
+
 
 WORKDIR /root/workspace
 

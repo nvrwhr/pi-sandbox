@@ -31,7 +31,7 @@ fi
 echo "Building $TAG ..."
 echo "  models.json -> $MODELS_SRC"
 echo "  auth.json   -> $AUTH_SRC"
-echo "  settings.json   -> $AUTH_SRC"
+echo "  settings.json   -> $SETTINGS_SRC"
 
 # Pass file contents as base64 build args (no host-side copies needed)
 docker build \

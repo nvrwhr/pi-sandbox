@@ -7,6 +7,7 @@ TAG="${1:-pi-sandbox:latest}"
 HOME_DIR="${HOME:-$USERPROFILE}"
 MODELS_SRC="$HOME_DIR/.pi/agent/models.json"
 AUTH_SRC="$HOME_DIR/.pi/agent/auth.json"
+SETTINGS_SRC="$HOME_DIR/.pi/agent/settings.json"
 
 if [[ -f "$MODELS_SRC" ]]; then
   MODELS_B64=$(base64 -w0 "$MODELS_SRC")
@@ -20,14 +21,23 @@ else
   AUTH_B64=$(printf '%s' '{}' | base64 -w0)
 fi
 
+
+if [[ -f "$SETTINGS_SRC" ]]; then
+  SETTINGS_B64=$(base64 -w0 "$SETTINGS_SRC")
+else
+  SETTINGS_B64=$(printf '%s' '{}' | base64 -w0)
+fi
+
 echo "Building $TAG ..."
 echo "  models.json -> $MODELS_SRC"
 echo "  auth.json   -> $AUTH_SRC"
+echo "  settings.json   -> $AUTH_SRC"
 
 # Pass file contents as base64 build args (no host-side copies needed)
 docker build \
   --build-arg MODELS_JSON_B64="$MODELS_B64" \
   --build-arg AUTH_JSON_B64="$AUTH_B64" \
+  --build-arg SETTINGS_JSON_B64="$SETTINGS_B64" \
   -t "$TAG" .
 
 echo "Done: $TAG"

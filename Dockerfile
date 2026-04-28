@@ -18,11 +18,13 @@ RUN curl -s https://install.ladybugdb.com | bash
 
 ARG MODELS_JSON_B64
 ARG AUTH_JSON_B64
+ARG SETTINGS_JSON_B64
 
 RUN mkdir -p /root/.pi/agent
 
 RUN echo "$MODELS_JSON_B64" | base64 -d > /root/.pi/agent/models.json; 
 RUN echo "$AUTH_JSON_B64" | base64 -d > /root/.pi/agent/auth.json; 
+RUN echo "$SETTINGS_JSON_B64" | base64 -d > /root/.pi/agent/settings.json; 
 
 COPY replace-localhost.js /root/replace-localhost.js
 RUN node /root/replace-localhost.js && rm /root/replace-localhost.js
